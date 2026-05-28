@@ -1,14 +1,5 @@
 {
     "version": 2,
-    "builds": [{
-        "src": "Backend/server.js",
-        "use": "@vercel/node",
-        "config": {
-            "includeFiles": ["Backend/**"]
-        }
-    }],
-    "routes": [{
-        "src": "/api/(.*)",
-        "dest": "Backend/server.js"
-    }]
+    "public": false,
+    "cleanUrls": true
 }
