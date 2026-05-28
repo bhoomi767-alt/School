@@ -21,7 +21,13 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+// ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
+app.use(cors({
+    origin: "https://school-beta-orcin.vercel.app",
+    credentials: true
+}));
+
 app.use(express.json());
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api", authRoutes);
@@ -495,6 +501,7 @@ app.post("/api/admin/forgot-password", async(req, res) => {
 
 
 // Search
+// Search Route - Ab ye crash nahi hoga!
 app.get("/api/search", async(req, res) => {
     try {
         const query = req.query.q;
@@ -502,24 +509,18 @@ app.get("/api/search", async(req, res) => {
 
         const searchRegex = { $regex: query, $options: "i" };
 
-        // 1. Notices & News mein dhundo
+        // 1. Notices mein dhundo (Kyunki Notice model niche bana hua hai)
         const notices = await Notice.find({
-            $or: [{ title: searchRegex }, { description: searchRegex }]
+            $or: [{ text: searchRegex }] // Aapke schema me field ka naam 'text' hai
         }).limit(5);
 
-        // 2. Events & Gallery mein dhundo
-        const events = await Event.find({
-            $or: [{ name: searchRegex }, { description: searchRegex }]
+        // 2. Admissions mein dhundo (Kyunki Admission model upar imported hai)
+        const admissions = await Admission.find({
+            $or: [{ name: searchRegex }, { message: searchRegex }]
         }).limit(5);
 
-        // 3. Teachers & Staff mein dhundo
-        // Agar aapka Teacher model hai toh:
-        const teachers = await Teacher.find({
-            $or: [{ name: searchRegex }, { subject: searchRegex }]
-        }).limit(5);
-
-        // Sabko ek object mein bhej do
-        res.json({ notices, events, teachers });
+        // Sabko ek object mein bhej do (Event aur Teacher hata diye hain taaki crash na ho)
+        res.json({ notices, admissions, events: [], teachers: [] });
     } catch (error) {
         console.error("Search Error:", error);
         res.status(500).json({ message: "Server search error" });
@@ -590,6 +591,11 @@ app.delete("/api/admin/notices/:id", async(req, res) => {
 mongoose.connect(process.env.DB_CONNECT_STRING)
     .then(() => console.log("DB connected"));
 
-app.listen(3000, () => {
-    console.log("Server running 3000");
+// app.listen(3000, () => {
+//     console.log("Server running 3000");
+// });
+// ✅ Ise replace karein code ke bilkul niche:
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
