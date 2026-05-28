@@ -28,7 +28,7 @@ export default function VisitorGate() {
     try {
 
       const response = await fetch(
-        "http://localhost:3000/api/visitor",
+        "https://school-s6ur.vercel.app/api/visitor",
         {
           method: "POST",
 

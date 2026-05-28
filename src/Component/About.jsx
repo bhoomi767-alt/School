@@ -1,72 +1,3 @@
-// export default function About(){
-//     return(
-//         <div className="w-full relative bg-[#93c5fd] py-16 px-5 overflow-hidden">
-
-//             {/* 🔝 CONTENT (UPPER LAYER) */}
-//             <div className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-5">
-
-//                 {/* LEFT SIDE */}
-//                 <div>
-//                     <h1 className="text-3xl font-bold mb-4 text-black">
-//                         About Our School
-//                     </h1>
-
-//                     <p className="text-gray-600 mb-5">
-//                         Our school focuses on quality education, discipline, and overall development of students. 
-//                         We aim to build a strong foundation for a bright future.
-//                     </p>
-
-//                     <button className="bg-blue-600 text-white px-5 py-2 cursor-pointer rounded hover:bg-blue-800">
-//                         Learn More
-//                     </button>
-//                 </div>
-
-//                 {/* RIGHT SIDE - EVENTS */}
-//                 <div className="bg-gray-200 p-5 rounded-xl shadow-md md:ml-60 cursor-pointer">
-//                     <h2 className="text-xl font-bold mb-4">
-//                         Upcoming Events
-//                     </h2>
-
-//                     <div className="mb-3 p-3 bg-white rounded">
-//                         <p className="font-semibold">Science Exhibition</p>
-//                         <p className="text-sm text-gray-500">June 5, 2024</p>
-//                     </div>
-
-//                     <div className="mb-3 p-3 bg-white rounded">
-//                         <p className="font-semibold">Sports Day</p>
-//                         <p className="text-sm text-gray-500">July 15, 2024</p>
-//                     </div>
-
-//                     <div className="p-3 bg-white rounded">
-//                         <p className="font-semibold">Annual Function</p>
-//                         <p className="text-sm text-gray-500">August 20, 2024</p>
-//                     </div>
-//                 </div>
-
-//             </div>
-
-//             {/* 🌊 WAVE (BACKGROUND - LOWER LAYER) */}
-//             <svg 
-//                 className="absolute bottom-0 left-0 w-full h-40 z-0"
-//                 viewBox="0 0 100 100"
-//                 preserveAspectRatio="none"
-//             >
-//                 <defs>
-//                     <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
-//                         <stop offset="0%" stopColor="#93c5fd" />
-//                         <stop offset="100%" stopColor="#fef9c3" />
-//                     </linearGradient>
-//                 </defs>
-
-//                 <path 
-//                     d="M0,0 L100,0 C35,100 65,0 100,100 L0,100 Z" 
-//                     fill="url(#waveGradient)"
-//                 />
-//             </svg>
-
-//         </div>
-//     )
-// }
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -153,18 +84,6 @@ export default function About() {
         </motion.div>
       </div>
 
-      {/* Bottom Wave
-      <svg
-        className="absolute bottom-0 left-0 w-full h-32"
-        viewBox="0 0 1440 320"
-        preserveAspectRatio="none"
-      >
-        <path
-          fill="#ffffff"
-          fillOpacity="0.7"
-          d="M0,192L60,197.3C120,203,240,213,360,202.7C480,192,600,160,720,165.3C840,171,960,213,1080,218.7C1200,224,1320,192,1380,176L1440,160L1440,320L0,320Z"
-        ></path>
-      </svg> */}
     </section>
   );
 }

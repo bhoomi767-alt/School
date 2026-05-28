@@ -31,7 +31,7 @@ export default function Profile() {
   // 1. Payment History Fetch
   const fetchHistory = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/payment/history/${studentId}`);
+      const res = await fetch(`https://school-s6ur.vercel.app/api/payment/history/${studentId}`);
       const data = await res.json();
       setHistory(data);
     } catch (err) {
@@ -42,7 +42,7 @@ export default function Profile() {
   // 2. Database se notice lane ka function (ISSE BAHAR NIKAL DIYA HAI)
   const fetchNotices = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/notices");
+      const res = await fetch("https://school-s6ur.vercel.app/api/notices");
       const data = await res.json();
       // Ensure karein ki data array hai
       setNotices(Array.isArray(data) ? data : []); 
@@ -76,7 +76,7 @@ export default function Profile() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/payment/submit", {
+      const response = await fetch("https://school-s6ur.vercel.app/api/payment/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paymentPayload)
@@ -120,7 +120,7 @@ export default function Profile() {
       <main className="max-w-7xl mx-auto p-4 md:p-10 relative">
         {/* Profile Card */}
         <div className="bg-white/90 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-sm border border-white">
-          <img src={`http://localhost:3000/upload/${studentPhoto}`} className="w-24 h-24 rounded-full object-cover border-2 border-blue-100 shadow-sm" alt="profile" />
+          <img src={`https://school-s6ur.vercel.app/upload/${studentPhoto}`} className="w-24 h-24 rounded-full object-cover border-2 border-blue-100 shadow-sm" alt="profile" />
           <div className="text-center md:text-left">
             <h2 className="text-2xl font-semibold text-blue-900">{studentName}</h2>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-2">

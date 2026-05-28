@@ -24,7 +24,7 @@ const app = express();
 // app.use(cors());
 // ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
 app.use(cors({
-    origin: "https://school-beta-orcin.vercel.app",
+    origin: "https://school-s6ur.vercel.app",
     credentials: true
 }));
 

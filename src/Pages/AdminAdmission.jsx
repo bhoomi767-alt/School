@@ -7,7 +7,7 @@ export default function AdminAdmission() {
 
   useEffect(() => {
 
-    fetch("http://localhost:3000/api/admission")
+    fetch("https://school-s6ur.vercel.app//api/admission")
       .then((res) => res.json())
       .then((data) => {
 
