@@ -1,0 +1,13 @@
+node modules/
+.env/
+Backend/.env
+dist/
+build/
+node_modules
+.parcel-cache
+uploads/
+public/uploads/
+*.mp4
+*.mov
+*.avi
+src/components/images/
