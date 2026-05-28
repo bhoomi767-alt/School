@@ -21,7 +21,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   const response = await fetch(
-    "https://school-s6ur.vercel.app/api/admission",
+    "https://school-m7jz.vercel.app/api/admission",
     {
       method: "POST",
 

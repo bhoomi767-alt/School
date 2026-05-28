@@ -12,7 +12,7 @@ export default function AdminVisitors() {
   try {
 
     const res = await fetch(
-      "https://school-s6ur.vercel.app/api/visitor"
+      "https://school-m7jz.vercel.app/api/visitor"
     );
 
     if (!res.ok) {
@@ -78,7 +78,7 @@ export default function AdminVisitors() {
   onClick={async () => {
 
     await fetch(
-      `https://school-s6ur.vercel.app/api/visitor/${v._id}`,
+      `https://school-m7jz.vercel.app/${v._id}`,
       {
         method: "DELETE"
       }

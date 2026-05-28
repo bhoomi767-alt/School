@@ -5,7 +5,7 @@ function Dashboard() {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      "https://school-s6ur.vercel.app/api/profile",
+      "https://school-m7jz.vercel.app/api/profile",
       {
         headers: {
           Authorization: `Bearer ${token}`

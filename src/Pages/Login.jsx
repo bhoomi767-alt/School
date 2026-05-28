@@ -11,7 +11,7 @@ export default function Login() {
 
 const handleLogin = async () => {
     // 1. Frontend se sirf data bhejna hai
-    const res = await fetch("https://school-s6ur.vercel.app/api/login", {
+    const res = await fetch("https://school-m7jz.vercel.app/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ number, password })
