@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { User, Phone, Send, GraduationCap, X } from "lucide-react";
+import { API_BASE_URL } from "../config.js";
 
 export default function VisitorGate() {
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +29,7 @@ export default function VisitorGate() {
     try {
 
       const response = await fetch(
-        "https://school-m7jz.vercel.app/api/visitor",
+        `${API_BASE_URL}/api/visitor`,
         {
           method: "POST",
 

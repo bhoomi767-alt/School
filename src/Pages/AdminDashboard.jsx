@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config.js";
 import AdminVisitors from "./adminvisitor";
 import Admission from "./Admission";
 import AdminAdmission from "./AdminAdmission";
@@ -41,7 +42,7 @@ const fetchAdmissions = async () => {
 
   try {
 
-    const response = await fetch("https://school-m7jz.vercel.app/api/admission");
+    const response = await fetch(`${API_BASE_URL}/api/admission`);
 
     const data = await response.json();
 
@@ -65,7 +66,7 @@ const deleteAdmission = async (id) => {
 
   try {
 
-    await fetch(`https://school-m7jz.vercel.app/api/admission/${id}`, {
+    await fetch(`${API_BASE_URL}/api/admission/${id}`, {
 
       method: "DELETE"
 
@@ -83,7 +84,7 @@ const deleteAdmission = async (id) => {
 
 useEffect(() => {
 
-  fetch("https://school-m7jz.vercel.app/api/enquiries")
+  fetch(`${API_BASE_URL}/api/enquiries`)
     .then((res) => res.json())
     .then((data) => {
 
@@ -99,7 +100,7 @@ useEffect(() => {
 
 // Payments fetch 
 useEffect(() => {
-    fetch("https://school-m7jz.vercel.app/api/admin/pending-payments")
+    fetch(`${API_BASE_URL}/api/admin/pending-payments`)
         .then((res) => {
             if (!res.ok) throw new Error("Server ne data nahi diya");
             return res.json();
@@ -111,7 +112,7 @@ useEffect(() => {
 // Action (Approve/Reject) handle karne ke liye function
 const handlePaymentAction = async (paymentId, action) => {
     const route = action === "approve" ? "approve-payment" : "reject-payment";
-    const res = await fetch(`https://school-m7jz.vercel.app/api/admin/${route}`, {
+    const res = await fetch(`${API_BASE_URL}/api/admin/${route}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paymentId })
@@ -124,13 +125,13 @@ const handlePaymentAction = async (paymentId, action) => {
 };
 
   useEffect(() => {
-    fetch("https://school-m7jz.vercel.app/api/students")
+    fetch(`${API_BASE_URL}/api/students`)
       .then((res) => res.json())
       .then((data) => setStudents(data));
   }, []);
 
 useEffect(() => {
-  fetch("https://school-m7jz.vercel.app/api/notices")
+  fetch(`${API_BASE_URL}/api/notices`)
     .then(res => res.json())
     .then(data => setNotices(data));
 }, []);
@@ -144,7 +145,7 @@ const handleDelete = async (id) => {
 
     if (window.confirm("Kya aap is notice ko delete karna chahte hain?")) {
         try {
-            const res = await fetch(`https://school-m7jz.vercel.app/api/admin/notices/${id}`, {
+            const res = await fetch(`${API_BASE_URL}/api/admin/notices/${id}`, {
                 method: "DELETE"
             });
             
@@ -167,7 +168,7 @@ const handleDelete = async (id) => {
 // feedback
 useEffect(() => {
 
-  fetch("https://school-m7jz.vercel.app/api/feedback")
+  fetch(`${API_BASE_URL}/api/feedback`)
     .then((res) => res.json())
     .then((data) => setFeedbacks(data));
 
@@ -209,7 +210,7 @@ const formData = new FormData();
   formData.append("attendance", attendance);
 
   const url = editId
-  ? `https://school-m7jz.vercel.app/api/student/${editId}`:"https://school-m7jz.vercel.app/api/register";
+  ? `${API_BASE_URL}/api/student/${editId}`:`${API_BASE_URL}/api/register`;
 
 const method = editId ? "PUT" : "POST";
 
@@ -221,7 +222,7 @@ const res = await fetch(url, {
   const data = await res.json();
   alert(data.message);
 
-  const updatedStudents = await fetch("https://school-m7jz.vercel.app/api/students");
+  const updatedStudents = await fetch(`${API_BASE_URL}/api/students`);
   const updatedData = await updatedStudents.json();
   setStudents(updatedData);
 
@@ -242,7 +243,7 @@ const res = await fetch(url, {
 
 const deleteStudent = async (id) => {
   const res = await fetch(
-    (`https://school-m7jz.vercel.app/api/student/${id}`),
+    (`${API_BASE_URL}/api/student/${id}`),
     {
       method: "DELETE"
     }
@@ -283,7 +284,7 @@ const sendOTP = async () => {
     alert("Please enter admin email");
     return;
   }
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/send-otp", {
+  const res = await fetch(`${API_BASE_URL}/api/admin/send-otp`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email })
@@ -294,7 +295,7 @@ const sendOTP = async () => {
 };
 
 const resetPassword = async () => {
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/verify-otp-reset", {
+  const res = await fetch(`${API_BASE_URL}/api/admin/verify-otp-reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ otp, newPassword: newPass })
@@ -319,7 +320,7 @@ const changeAdminPassword = async () => {
 
 
 
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/change-password", {
+  const res = await fetch(`${API_BASE_URL}/api/admin/change-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password: newAdminPassword })
@@ -632,7 +633,7 @@ const currentStudent = students.find(
 
       <button
         onClick={() => {
-          fetch("https://school-m7jz.vercel.app/api/notices", {
+          fetch(`${API_BASE_URL}/api/notices`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -736,7 +737,7 @@ const currentStudent = students.find(
               <div className="flex items-center gap-5">
 
                 <img
-                  src={`https://school-m7jz.vercel.app/upload/${student.photo}`}
+                  src={`${API_BASE_URL}/upload/${student.photo}`}
                   alt={student.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                 />
@@ -847,7 +848,7 @@ const currentStudent = students.find(
               onClick={async () => {
 
                 await fetch(
-                  `https://school-m7jz.vercel.app/api/feedback/${f._id}`,
+                  `${API_BASE_URL}/api/feedback/${f._id}`,
                   {
                     method: "DELETE",
                   }

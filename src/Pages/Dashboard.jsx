@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import { API_BASE_URL } from "../config.js";
 
 function Dashboard() {
   const fetchProfile = async () => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      "https://school-m7jz.vercel.app/api/profile",
+      `${API_BASE_URL}/api/profile`,
       {
         headers: {
           Authorization: `Bearer ${token}`

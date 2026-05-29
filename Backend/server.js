@@ -22,9 +22,21 @@ const authRoutes = require("./routes/auth");
 const app = express();
 
 // app.use(cors());
-// ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
+// ✅ CORS - allow Vercel deployment + any localhost port for development
 app.use(cors({
-    origin: "https://school-s6ur.vercel.app",
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        // Allow any localhost/127.0.0.1 origin (dev)
+        if (origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:")) {
+            return callback(null, true);
+        }
+        // Allow the production Vercel deployment
+        if (origin === "https://school-s6ur.vercel.app") {
+            return callback(null, true);
+        }
+        return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true
 }));
 
@@ -57,18 +69,31 @@ const Visitor = mongoose.models.Visitor || mongoose.model(
 // VISITOR FORM
 app.post("/api/visitor", async(req, res) => {
 
-    const newVisitor = new Visitor({
-        name: req.body.name,
-        mobile: req.body.mobile,
-        message: req.body.message,
-        type: "visitor"
-    });
+    try {
 
-    await newVisitor.save();
+        const newVisitor = new Visitor({
+            name: req.body.name,
+            mobile: req.body.mobile,
+            message: req.body.message,
+            interest: req.body.interest,
+            type: "visitor"
+        });
 
-    res.json({
-        message: "Visitor Saved"
-    });
+        await newVisitor.save();
+
+        res.json({
+            message: "Visitor Saved"
+        });
+
+    } catch (error) {
+
+        console.log("Visitor save error:", error);
+
+        res.status(500).json({
+            message: "Something went wrong while saving visitor"
+        });
+
+    }
 });
 
 app.delete("/api/visitor/:id", async(req, res) => {
@@ -595,7 +620,7 @@ mongoose.connect(process.env.DB_CONNECT_STRING)
 //     console.log("Server running 3000");
 // });
 // ✅ Ise replace karein code ke bilkul niche:
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.BACKEND_PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

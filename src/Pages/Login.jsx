@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config.js";
 
 export default function Login() {
   const [number, setNumber] = useState("");
@@ -11,7 +12,7 @@ export default function Login() {
 
 const handleLogin = async () => {
     // 1. Frontend se sirf data bhejna hai
-    const res = await fetch("https://school-m7jz.vercel.app/api/login", {
+    const res = await fetch(`${API_BASE_URL}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ number, password })

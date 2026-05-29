@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from "../config.js";
 
 const SearchResults = () => {
     const [results, setResults] = useState({ notices: [], events: [], teachers: [] });
@@ -12,7 +13,7 @@ const SearchResults = () => {
         const fetchAllData = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`https://school-m7jz.vercel.app/api/search?q=${query}`);
+                const res = await fetch(`${API_BASE_URL}/api/search?q=${query}`);
                 const data = await res.json();
                 setResults(data);
             } catch (err) {
