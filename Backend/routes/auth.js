@@ -123,7 +123,7 @@ router.post("/login", async(req, res) => {
     }
 
     const token = jwt.sign({ id: user._id },
-        process.env.DB_CONNECT_STRING, { expiresIn: "1d" }
+        process.env.JWT_SECRET, { expiresIn: "1d" }
     );
 
     return res.status(200).json({
