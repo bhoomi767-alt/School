@@ -588,13 +588,8 @@ app.delete("/api/admin/notices/:id", async(req, res) => {
 });
 
 
-// Debug: check if env vars are loaded
-console.log("DB_CONNECT_STRING exists:", !!process.env.DB_CONNECT_STRING);
-console.log("DB_CONNECT_STRING starts with:", process.env.DB_CONNECT_STRING?.substring(0, 15));
-
 mongoose.connect(process.env.DB_CONNECT_STRING)
-    .then(() => console.log("DB connected"))
-    .catch((err) => console.error("DB connection failed:", err.message));
+    .then(() => console.log("DB connected"));
 
 // app.listen(3000, () => {
 //     console.log("Server running 3000");
