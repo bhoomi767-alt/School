@@ -8,94 +8,162 @@ const upload = require("../multer");
 
 const router = express.Router();
 
-// const storage = multer.diskStorage({
-//     destination: "./uploads",
-//     filename: (req, file, cb) => {
-//         cb(null, Date.now() + "-" + file.originalname);
+
+// REGISTER
+// router.post("/register", upload.single("photo"), async(req, res) => {
+//     console.log("BODY:", req.body)
+//     const { name, number, password, rollNo, role, feeStatus, studentClass, percentage, attendance } = req.body;
+
+//     if (!/^\d{10}$/.test(number)) {
+//         return res.status(400).json({
+//             message: "Mobile number must be exactly 10 digits"
+//         });
+//     }
+
+//     const isValidPassword =
+//         password.length >= 8 &&
+//         password[0] === password[0].toUpperCase() &&
+//         /[0-9]/.test(password) &&
+//         /[@$!%*?&]/.test(password);
+
+//     console.log("PASSWORD VALID:", isValidPassword);
+
+//     if (!isValidPassword) {
+//         return res.json({
+//             message: "Password must start with capital letter, contain number, special character and be at least 8 characters long"
+//         });
+//     }
+
+//     const existingUser = await User.findOne({ number });
+
+//     if (existingUser) {
+//         return res.json({
+//             message: "User already exists"
+//         });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const newUser = new User({
+//         name,
+//         number,
+//         password: hashedPassword,
+
+//         role: role || "student",
+
+//         rollNo: role === "student" ? rollNo : undefined,
+//         feeStatus: role === "student" ? feeStatus : undefined,
+//         studentClass: role === "student" ? studentClass : undefined,
+//         percentage: role === "student" ? percentage : undefined,
+//         attendance: role === "student" ? attendance : undefined,
+//         // photo: role === "student" ? photoFilename : undefined
+//         photo: role === "student" && req.file ?
+//             req.file.path : ""
+//     });
+
+//     await newUser.save();
+
+//     res.json({
+//         message: "Registered successfully"
+//     });
+// });
+
+// router.put("/student/:id", upload.single("photo"), async(req, res) => {
+//     try {
+//         const existingStudent = await User.findById(req.params.id);
+
+//         await User.findByIdAndUpdate(req.params.id, {
+//             name: req.body.name,
+//             number: req.body.number,
+//             rollNo: req.body.rollNo,
+//             feeStatus: req.body.feeStatus,
+//             studentClass: req.body.studentClass,
+//             percentage: req.body.percentage,
+//             attendance: req.body.attendance,
+//             photo: req.file ?
+//                 req.file.path : existingStudent.photo
+//         });
+
+//         res.json({ message: "Student updated successfully" });
+//     } catch (error) {
+//         res.status(500).json({ message: "Update failed" });
 //     }
 // });
 
-// const upload = multer({ storage });
-
-
 // REGISTER
-router.post("/register", upload.single("photo"), async(req, res) => {
-    console.log("BODY:", req.body)
-    const { name, number, password, rollNo, role, feeStatus, studentClass, percentage, attendance } = req.body;
-
-    if (!/^\d{10}$/.test(number)) {
-        return res.status(400).json({
-            message: "Mobile number must be exactly 10 digits"
-        });
-    }
-
-    const isValidPassword =
-        password.length >= 8 &&
-        password[0] === password[0].toUpperCase() &&
-        /[0-9]/.test(password) &&
-        /[@$!%*?&]/.test(password);
-
-    console.log("PASSWORD VALID:", isValidPassword);
-
-    if (!isValidPassword) {
-        return res.json({
-            message: "Password must start with capital letter, contain number, special character and be at least 8 characters long"
-        });
-    }
-
-    const existingUser = await User.findOne({ number });
-
-    if (existingUser) {
-        return res.json({
-            message: "User already exists"
-        });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({
-        name,
-        number,
-        password: hashedPassword,
-
-        role: role || "student",
-
-        rollNo: role === "student" ? rollNo : undefined,
-        feeStatus: role === "student" ? feeStatus : undefined,
-        studentClass: role === "student" ? studentClass : undefined,
-        percentage: role === "student" ? percentage : undefined,
-        attendance: role === "student" ? attendance : undefined,
-        // photo: role === "student" ? photoFilename : undefined
-        photo: role === "student" && req.file ?
-            req.file.path : ""
-    });
-
-    await newUser.save();
-
-    res.json({
-        message: "Registered successfully"
-    });
-});
-
-router.put("/student/:id", upload.single("photo"), async(req, res) => {
+router.post("/register", async(req, res) => {
     try {
-        const existingStudent = await User.findById(req.params.id);
+        console.log("BODY:", req.body);
+        const { name, number, password, rollNo, role, feeStatus, studentClass, percentage, attendance } = req.body;
 
-        await User.findByIdAndUpdate(req.params.id, {
-            name: req.body.name,
-            number: req.body.number,
-            rollNo: req.body.rollNo,
-            feeStatus: req.body.feeStatus,
-            studentClass: req.body.studentClass,
-            percentage: req.body.percentage,
-            attendance: req.body.attendance,
-            photo: req.file ?
-                req.file.path : existingStudent.photo
+
+        if (!number || !password || !name) {
+            return res.status(400).json({
+                message: "Name, Mobile number, and Password are required."
+            });
+        }
+
+
+        if (!/^\d{10}$/.test(number)) {
+            return res.status(400).json({
+                message: "Mobile number must be exactly 10 digits"
+            });
+        }
+
+
+        const isValidPassword =
+            password.length >= 8 &&
+            password[0] === password[0].toUpperCase() &&
+            /[0-9]/.test(password) &&
+            /[@$!%*?&]/.test(password);
+
+        console.log("PASSWORD VALID:", isValidPassword);
+
+        if (!isValidPassword) {
+            return res.status(400).json({
+                message: "Password must start with capital letter, contain number, special character and be at least 8 characters long"
+            });
+        }
+
+
+        const existingUser = await User.findOne({ number });
+        if (existingUser) {
+            return res.status(400).json({
+                message: "User already exists"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+
+        const newUser = new User({
+            name,
+            number,
+            password: hashedPassword,
+            role: role || "student",
+            rollNo: role === "student" ? rollNo : undefined,
+            feeStatus: role === "student" ? feeStatus : undefined,
+            studentClass: role === "student" ? studentClass : undefined,
+            percentage: role === "student" ? percentage : undefined,
+            attendance: role === "student" ? attendance : undefined,
+            // photo: role === "student" && req.file ? req.file.path : ""
+            photo: ""
         });
 
-        res.json({ message: "Student updated successfully" });
+
+        await newUser.save();
+
+        return res.status(201).json({
+            message: "Registered successfully"
+        });
+
     } catch (error) {
-        res.status(500).json({ message: "Update failed" });
+
+        console.error("REGISTER ERROR:", error);
+        return res.status(500).json({
+            message: "Internal Server Error during registration",
+            error: error.message
+        });
     }
 });
 

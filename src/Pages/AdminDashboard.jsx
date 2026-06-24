@@ -37,23 +37,48 @@ const [visitors, setVisitors] = useState([]); // <--- Naya State
 const [feedbacks, setFeedbacks] = useState([]);
 const [admissions, setAdmissions] = useState([]);
 
+// const fetchAdmissions = async () => {
+
+//   try {
+
+//     const response = await fetch("https://school-m7jz.vercel.app/api/admission");
+
+//     const data = await response.json();
+
+//     const res = await fetch(url, {
+//   method,
+//   body: formData
+// });
+
 const fetchAdmissions = async () => {
-
   try {
-
-    const response = await fetch("https://school-m7jz.vercel.app/api/admission");
+    const response = await fetch(
+      "https://school-m7jz.vercel.app/api/admission"
+    );
 
     const data = await response.json();
 
     setAdmissions(data);
-
   } catch (error) {
-
     console.log(error);
-
   }
-
 };
+
+
+
+// const text = await res.text();
+// console.log("Status:", res.status);
+// console.log("Response:", text);
+
+//     setAdmissions(data);
+
+//   } catch (error) {
+
+//     console.log(error);
+
+//   }
+
+// };
 
 useEffect(() => {
 
@@ -190,6 +215,11 @@ if (!rollNo.trim()) {
   return;
 }
 
+// if (!photo && !editId) {
+//   alert("Please select student photo");
+//   return;
+// }
+
 if (!photo && !editId) {
   alert("Please select student photo");
   return;
@@ -208,8 +238,22 @@ const formData = new FormData();
   formData.append("percentage", percentage);
   formData.append("attendance", attendance);
 
-  const url = editId
-  ? `https://school-m7jz.vercel.app/api/student/${editId}`:"https://school-m7jz.vercel.app/api/register";
+//   const url = editId
+//   ? `https://school-m7jz.vercel.app/api/student/${editId}`:"https://school-m7jz.vercel.app/api/register";
+
+// const method = editId ? "PUT" : "POST";
+
+// const res = await fetch(url, {
+//   method,
+//   body: formData
+// });
+
+//   const data = await res.json();
+//   alert(data.message);
+
+const url = editId
+  ? `https://school-m7jz.vercel.app/api/student/${editId}`
+  : "https://school-m7jz.vercel.app/api/register";
 
 const method = editId ? "PUT" : "POST";
 
@@ -218,8 +262,18 @@ const res = await fetch(url, {
   body: formData
 });
 
-  const data = await res.json();
-  alert(data.message);
+const text = await res.text();
+
+console.log("Status:", res.status);
+console.log("Response:", text);
+
+if (!res.ok) {
+  alert("Server Error");
+  return;
+}
+
+const data = JSON.parse(text);
+alert(data.message);
 
   const updatedStudents = await fetch("https://school-m7jz.vercel.app/api/students");
   const updatedData = await updatedStudents.json();
