@@ -596,6 +596,19 @@ app.delete("/api/admin/notices/:id", async(req, res) => {
 });
 
 
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).json({ message: `Route ${req.method} ${req.url} not found` });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error("Server Error:", err);
+    res.status(err.status || 500).json({
+        message: err.message || "Internal Server Error"
+    });
+});
+
 mongoose.connect(process.env.DB_CONNECT_STRING)
     .then(() => console.log("DB connected"));
 

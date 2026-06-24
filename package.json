@@ -17,6 +17,8 @@
     },
     "scripts": {
         "start": "parcel src/index.html",
+        "server": "node Backend/server.js",
+        "dev": "node dev.js",
         "build": "parcel build src/index.html",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
