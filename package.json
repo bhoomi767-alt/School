@@ -54,7 +54,6 @@
         "normalize-range": "^0.1.2",
         "nullthrows": "^1.1.1",
         "ordered-binary": "^1.6.1",
-        "parcel": "^2.16.4",
         "picocolors": "^1.1.1",
         "picomatch": "^4.0.3",
         "postcss-value-parser": "^4.2.0",
@@ -82,7 +81,6 @@
     },
     "scripts": {
         "start": "parcel src/index.html",
-
         "build": "echo 'No build step needed for backend'",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
