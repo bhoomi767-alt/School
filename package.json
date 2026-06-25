@@ -80,10 +80,12 @@
         "weak-lru-cache": "^1.2.2"
     },
     "scripts": {
-        "start": "parcel src/index.html",
-        "build": "echo 'No build step needed for backend'",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node api/index.js",
+        "build": "echo 'No build needed'",
+        "parcel:build": "echo 'Bypassing parcel'",
+        "parcel": "echo 'No parcel'"
     },
+
     "keywords": [],
     "author": "",
     "license": "ISC",
