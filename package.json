@@ -99,5 +99,14 @@
         "postcss": "^8.5.12",
         "tailwindcss": "^4.2.4",
         "vite": "^8.0.14"
+    },
+    "packageManager": "npm@10.8.1",
+    "engines": {
+        "node": "20.x"
+    },
+    "vercel": {
+        "config": {
+            "installCommand": "npm install --legacy-peer-deps"
+        }
     }
 }
