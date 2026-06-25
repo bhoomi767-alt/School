@@ -85,3 +85,4 @@ const handleLogin = async () => {
 }
 
 
+// "build": "parcel build src/index.html",
