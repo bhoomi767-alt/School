@@ -38,49 +38,15 @@ const [visitors, setVisitors] = useState([]); // <--- Naya State
 const [feedbacks, setFeedbacks] = useState([]);
 const [admissions, setAdmissions] = useState([]);
 
-// const fetchAdmissions = async () => {
-
-//   try {
-
-//     const response = await fetch("https://school-m7jz.vercel.app/api/admission");
-
-//     const data = await response.json();
-
-    const response = await fetch(`${API_BASE_URL}/api/admission`);
-//     const res = await fetch(url, {
-//   method,
-//   body: formData
-// });
-
 const fetchAdmissions = async () => {
   try {
-    const response = await fetch(
-      "https://school-m7jz.vercel.app/api/admission"
-    );
-
+    const response = await fetch(`${API_BASE_URL}/api/admission`);
     const data = await response.json();
-
     setAdmissions(data);
   } catch (error) {
     console.log(error);
   }
 };
-
-
-
-// const text = await res.text();
-// console.log("Status:", res.status);
-// console.log("Response:", text);
-
-//     setAdmissions(data);
-
-//   } catch (error) {
-
-//     console.log(error);
-
-//   }
-
-// };
 
 useEffect(() => {
 
@@ -241,30 +207,15 @@ const formData = new FormData();
   formData.append("attendance", attendance);
 
   const url = editId
-  ? `${API_BASE_URL}/api/student/${editId}`:`${API_BASE_URL}/api/register`;
-//   const url = editId
-//   ? `https://school-m7jz.vercel.app/api/student/${editId}`:"https://school-m7jz.vercel.app/api/register";
+    ? `${API_BASE_URL}/api/student/${editId}`
+    : `${API_BASE_URL}/api/register`;
 
-// const method = editId ? "PUT" : "POST";
+  const method = editId ? "PUT" : "POST";
 
-// const res = await fetch(url, {
-//   method,
-//   body: formData
-// });
-
-//   const data = await res.json();
-//   alert(data.message);
-
-const url = editId
-  ? `https://school-m7jz.vercel.app/api/student/${editId}`
-  : "https://school-m7jz.vercel.app/api/register";
-
-const method = editId ? "PUT" : "POST";
-
-const res = await fetch(url, {
-  method,
-  body: formData
-});
+  const res = await fetch(url, {
+    method,
+    body: formData
+  });
 
 const text = await res.text();
 

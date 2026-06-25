@@ -39,7 +39,6 @@
         "jsonwebtoken": "^9.0.3",
         "lightningcss-win32-x64-msvc": "^1.32.0",
         "lmdb": "^2.8.5",
-        "lucide-react": "^1.14.0",
         "mongodb": "^7.2.0",
         "mongoose": "^9.7.2",
         "msgpackr": "^1.11.9",
@@ -66,21 +65,23 @@
         "tailwind-scrollbar-hide": "^4.0.0"
     },
     "scripts": {
-        "start": "parcel src/index.html",
+        "start": "parcel src/index.html --port 1234",
         "server": "node Backend/server.js",
         "dev": "node dev.js",
         "build": "parcel build src/index.html",
         "test": "echo \"Error: no test specified\" && exit 1"
-        "start": "node api/server.js",
-        "build": "echo 'No build needed'",
-        "parcel:build": "echo 'Bypassing parcel'",
-        "parcel": "echo 'No parcel'"
     },
 
     "keywords": [],
     "author": "",
     "license": "ISC",
     "type": "commonjs",
+    "targets": {
+        "default": {
+            "context": "browser",
+            "distDir": "dist"
+        }
+    },
     "devDependencies": {
         "@tailwindcss/postcss": "^4.2.4",
         "@vitejs/plugin-react": "^6.0.2",

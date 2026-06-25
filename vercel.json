@@ -8,17 +8,5 @@
         { "src": "/upload/(.*)", "dest": "/api/server.js" },
         { "handle": "filesystem" },
         { "src": "/(.*)", "dest": "/index.html" }
-    "framework": null,
-    "buildCommand": "echo 'No build needed'",
-    "outputDirectory": ".",
-    "installCommand": "npm install --legacy-peer-deps",
-    "rewrites": [{
-            "source": "/api/(.*)",
-            "destination": "/api/server.js"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/api/server.js"
-        }
     ]
 }
