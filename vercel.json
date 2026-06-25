@@ -5,9 +5,14 @@
         "use": "@vercel/node"
     }],
     "routes": [{
-        "src": "/(._)",
-        "dest": "server.js"
-    }],
+            "src": "/api/(.*)",
+            "dest": "server.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ],
     "build": {
         "env": {
             "NPM_FLAGS": "--legacy-peer-deps"
