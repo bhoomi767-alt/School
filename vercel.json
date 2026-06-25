@@ -1,14 +1,16 @@
 {
     "version": 2,
     "builds": [{
-        "src": "Backend/server.js",
-        "use": "@vercel/node",
-        "config": {
-            "includeFiles": ["Backend/**"]
-        }
+        "src": "server.js",
+        "use": "@vercel/node"
     }],
     "routes": [{
-        "src": "/api/(.*)",
-        "dest": "Backend/server.js"
-    }]
+        "src": "/(._)",
+        "dest": "server.js"
+    }],
+    "build": {
+        "env": {
+            "NPM_FLAGS": "--legacy-peer-deps"
+        }
+    }
 }
