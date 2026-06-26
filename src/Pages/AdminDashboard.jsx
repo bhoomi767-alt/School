@@ -41,7 +41,7 @@ const [admissions, setAdmissions] = useState([]);
 
 //   try {
 
-//     const response = await fetch("https://school-m7jz.vercel.app/api/admission");
+//     const response = await fetch("http://localhost:3000/api/admission");
 
 //     const data = await response.json();
 
@@ -53,7 +53,7 @@ const [admissions, setAdmissions] = useState([]);
 const fetchAdmissions = async () => {
   try {
     const response = await fetch(
-      "https://school-m7jz.vercel.app/api/admission"
+      "http://localhost:3000/api/admission"
     );
 
     const data = await response.json();
@@ -90,7 +90,7 @@ const deleteAdmission = async (id) => {
 
   try {
 
-    await fetch(`https://school-m7jz.vercel.app/api/admission/${id}`, {
+    await fetch(`http://localhost:3000/api/admission/${id}`, {
 
       method: "DELETE"
 
@@ -108,7 +108,7 @@ const deleteAdmission = async (id) => {
 
 useEffect(() => {
 
-  fetch("https://school-m7jz.vercel.app/api/enquiries")
+  fetch("http://localhost:3000/api/enquiries")
     .then((res) => res.json())
     .then((data) => {
 
@@ -124,7 +124,7 @@ useEffect(() => {
 
 // Payments fetch 
 useEffect(() => {
-    fetch("https://school-m7jz.vercel.app/api/admin/pending-payments")
+    fetch("http://localhost:3000/api/admin/pending-payments")
         .then((res) => {
             if (!res.ok) throw new Error("Server ne data nahi diya");
             return res.json();
@@ -136,7 +136,7 @@ useEffect(() => {
 // Action (Approve/Reject) handle karne ke liye function
 const handlePaymentAction = async (paymentId, action) => {
     const route = action === "approve" ? "approve-payment" : "reject-payment";
-    const res = await fetch(`https://school-m7jz.vercel.app/api/admin/${route}`, {
+    const res = await fetch(`http://localhost:3000/api/admin/${route}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paymentId })
@@ -149,13 +149,13 @@ const handlePaymentAction = async (paymentId, action) => {
 };
 
   useEffect(() => {
-    fetch("https://school-m7jz.vercel.app/api/students")
+    fetch("http://localhost:3000/api/students")
       .then((res) => res.json())
       .then((data) => setStudents(data));
   }, []);
 
 useEffect(() => {
-  fetch("https://school-m7jz.vercel.app/api/notices")
+  fetch("http://localhost:3000/api/notices")
     .then(res => res.json())
     .then(data => setNotices(data));
 }, []);
@@ -169,7 +169,7 @@ const handleDelete = async (id) => {
 
     if (window.confirm("Kya aap is notice ko delete karna chahte hain?")) {
         try {
-            const res = await fetch(`https://school-m7jz.vercel.app/api/admin/notices/${id}`, {
+            const res = await fetch(`http://localhost:3000/api/admin/notices/${id}`, {
                 method: "DELETE"
             });
             
@@ -192,7 +192,7 @@ const handleDelete = async (id) => {
 // feedback
 useEffect(() => {
 
-  fetch("https://school-m7jz.vercel.app/api/feedback")
+  fetch("http://localhost:3000/api/feedback")
     .then((res) => res.json())
     .then((data) => setFeedbacks(data));
 
@@ -239,7 +239,7 @@ const formData = new FormData();
   formData.append("attendance", attendance);
 
 //   const url = editId
-//   ? `https://school-m7jz.vercel.app/api/student/${editId}`:"https://school-m7jz.vercel.app/api/register";
+//   ? `http://localhost:3000/api/student/${editId}`:"http://localhost:3000/api/register";
 
 // const method = editId ? "PUT" : "POST";
 
@@ -252,8 +252,8 @@ const formData = new FormData();
 //   alert(data.message);
 
 const url = editId
-  ? `https://school-m7jz.vercel.app/api/student/${editId}`
-  : "https://school-m7jz.vercel.app/api/register";
+  ? `http://localhost:3000/api/student/${editId}`
+  : "http://localhost:3000/api/register";
 
 const method = editId ? "PUT" : "POST";
 
@@ -275,7 +275,7 @@ if (!res.ok) {
 const data = JSON.parse(text);
 alert(data.message);
 
-  const updatedStudents = await fetch("https://school-m7jz.vercel.app/api/students");
+  const updatedStudents = await fetch("http://localhost:3000/api/students");
   const updatedData = await updatedStudents.json();
   setStudents(updatedData);
 
@@ -296,7 +296,7 @@ alert(data.message);
 
 const deleteStudent = async (id) => {
   const res = await fetch(
-    (`https://school-m7jz.vercel.app/api/student/${id}`),
+    (`http://localhost:3000/api/student/${id}`),
     {
       method: "DELETE"
     }
@@ -337,7 +337,7 @@ const sendOTP = async () => {
     alert("Please enter admin email");
     return;
   }
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/send-otp", {
+  const res = await fetch("http://localhost:3000/api/admin/send-otp", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email })
@@ -348,7 +348,7 @@ const sendOTP = async () => {
 };
 
 const resetPassword = async () => {
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/verify-otp-reset", {
+  const res = await fetch("http://localhost:3000/api/admin/verify-otp-reset", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ otp, newPassword: newPass })
@@ -373,7 +373,7 @@ const changeAdminPassword = async () => {
 
 
 
-  const res = await fetch("https://school-m7jz.vercel.app/api/admin/change-password", {
+  const res = await fetch("http://localhost:3000/api/admin/change-password", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password: newAdminPassword })

@@ -91,7 +91,7 @@ const router = express.Router();
 // });
 
 // REGISTER
-router.post("/register", async(req, res) => {
+router.post("/register", upload.single("photo"), async(req, res) => {
     try {
         console.log("BODY:", req.body);
         const { name, number, password, rollNo, role, feeStatus, studentClass, percentage, attendance } = req.body;
@@ -147,7 +147,7 @@ router.post("/register", async(req, res) => {
             percentage: role === "student" ? percentage : undefined,
             attendance: role === "student" ? attendance : undefined,
             // photo: role === "student" && req.file ? req.file.path : ""
-            photo: ""
+            photo: req.file ? req.file.path : ""
         });
 
 

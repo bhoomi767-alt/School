@@ -21,7 +21,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   const response = await fetch(
-    "https://school-m7jz.vercel.app/api/admission",
+    "http://localhost:3000/api/admission",
     {
       method: "POST",
 

@@ -7,7 +7,7 @@ export default function AdminAdmission() {
 
   useEffect(() => {
 
-    fetch("https://school-m7jz.vercel.app/api/admission")
+    fetch("http://localhost:3000/api/admission")
       .then((res) => res.json())
       .then((data) => {
 
@@ -21,7 +21,7 @@ export default function AdminAdmission() {
 
   e.preventDefault();
 
-  await fetch("https://school-m7jz.vercel.app/api/admission", {
+  await fetch("http://localhost:3000/api/admission", {
 
     method: "POST",
 
@@ -93,7 +93,7 @@ export default function AdminAdmission() {
                   <button
   onClick={async () => {
 
-    await fetch(`https://school-m7jz.vercel.app/api/admission/${item._id}`, {
+    await fetch(`http://localhost:3000/api/admission/${item._id}`, {
       method: "DELETE"
     });
 

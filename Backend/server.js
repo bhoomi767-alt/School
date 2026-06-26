@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 // app.use(cors());
 // ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
 app.use(cors({
-    origin: "https://school-s6ur.vercel.app",
+    origin: ["https://school-s6ur.vercel.app", "http://127.0.0.1:5173", "http://localhost:5173"],
     credentials: true
 }));
 

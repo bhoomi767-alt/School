@@ -12,7 +12,7 @@ const SearchResults = () => {
         const fetchAllData = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`https://school-m7jz.vercel.app/api/search?q=${query}`);
+                const res = await fetch(`http://localhost:3000/api/search?q=${query}`);
                 const data = await res.json();
                 setResults(data);
             } catch (err) {
