@@ -54,6 +54,11 @@ const Visitor = mongoose.models.Visitor || mongoose.model(
     visitorSchema
 );
 
+
+app.get("/", (req, res) => {
+    res.send("<h1>School Backend Server is Running Successfully! ✅</h1>");
+});
+
 // VISITOR FORM
 app.post("/api/visitor", async(req, res) => {
 
