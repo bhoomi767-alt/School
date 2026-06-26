@@ -80,7 +80,7 @@
         "weak-lru-cache": "^1.2.2"
     },
     "scripts": {
-        "start": "node api/server.js",
+        "start": "node server.js",
         "build": "echo 'No build needed'",
         "parcel:build": "echo 'Bypassing parcel'",
         "parcel": "echo 'No parcel'"
