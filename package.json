@@ -101,9 +101,11 @@
         "vite": "^8.0.14"
     },
     "packageManager": "npm@10.8.1",
+
     "engines": {
-        "node": "22.x"
+        "node": "24.x"
     },
+
     "vercel": {
         "config": {
             "installCommand": "npm install --legacy-peer-deps"
