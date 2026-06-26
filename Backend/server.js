@@ -21,6 +21,11 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
+
+app.get("/", (req, res) => {
+    res.send("<h1>School Backend Server is Running Successfully! ✅</h1>");
+});
+
 // app.use(cors());
 // ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
 app.use(cors({
@@ -55,9 +60,6 @@ const Visitor = mongoose.models.Visitor || mongoose.model(
 );
 
 
-app.get("/", (req, res) => {
-    res.send("<h1>School Backend Server is Running Successfully! ✅</h1>");
-});
 
 // VISITOR FORM
 app.post("/api/visitor", async(req, res) => {
