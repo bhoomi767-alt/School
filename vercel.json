@@ -1,16 +1,15 @@
 {
     "version": 2,
-    "framework": null,
     "buildCommand": "echo 'No build needed'",
     "outputDirectory": ".",
     "installCommand": "npm install --legacy-peer-deps",
     "rewrites": [{
             "source": "/api/(.*)",
-            "destination": "/api/server.js"
+            "destination": "server.js"
         },
         {
             "source": "/(.*)",
-            "destination": "/api/server.js"
+            "destination": "server.js"
         }
     ]
 }
