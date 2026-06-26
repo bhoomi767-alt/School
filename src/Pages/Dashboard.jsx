@@ -1,11 +1,15 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config.js";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
   const fetchProfile = async () => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      "http://localhost:3000/api/profile",
+      `${API_BASE_URL}/api/profile`,
       {
         headers: {
           Authorization: `Bearer ${token}`

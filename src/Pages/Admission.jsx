@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_BASE_URL } from "../config.js";
 import {
   GraduationCap,
   User,
@@ -21,7 +22,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   const response = await fetch(
-    "http://localhost:3000/api/admission",
+    `${API_BASE_URL}/api/admission`,
     {
       method: "POST",
 

@@ -1,6 +1,7 @@
 
 
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../config.js";
 
 export default function AdminVisitors() {
 
@@ -12,7 +13,7 @@ export default function AdminVisitors() {
   try {
 
     const res = await fetch(
-      "http://localhost:3000/api/visitor"
+      `${API_BASE_URL}/api/visitor`
     );
 
     if (!res.ok) {
@@ -78,7 +79,7 @@ export default function AdminVisitors() {
   onClick={async () => {
 
     await fetch(
-      `http://localhost:3000/${v._id}`,
+      `${API_BASE_URL}/api/visitor/${v._id}`,
       {
         method: "DELETE"
       }

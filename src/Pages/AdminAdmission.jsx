@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Phone, BookOpen } from "lucide-react";
+import { API_BASE_URL } from "../config.js";
 
 export default function AdminAdmission() {
 
@@ -7,7 +8,7 @@ export default function AdminAdmission() {
 
   useEffect(() => {
 
-    fetch("http://localhost:3000/api/admission")
+    fetch(`${API_BASE_URL}/api/admission`)
       .then((res) => res.json())
       .then((data) => {
 
@@ -21,7 +22,7 @@ export default function AdminAdmission() {
 
   e.preventDefault();
 
-  await fetch("http://localhost:3000/api/admission", {
+  await fetch(`${API_BASE_URL}/api/admission`, {
 
     method: "POST",
 
@@ -93,7 +94,7 @@ export default function AdminAdmission() {
                   <button
   onClick={async () => {
 
-    await fetch(`http://localhost:3000/api/admission/${item._id}`, {
+    await fetch(`${API_BASE_URL}/api/admission/${item._id}`, {
       method: "DELETE"
     });
 

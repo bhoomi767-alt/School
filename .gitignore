@@ -1,5 +1,5 @@
 node modules/
-.env/
+.env
 Backend/.env
 dist/
 build/

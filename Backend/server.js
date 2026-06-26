@@ -21,13 +21,10 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-
 app.get("/", (req, res) => {
     res.send("<h1>School Backend Server is Running Successfully! ✅</h1>");
 });
 
-// app.use(cors());
-// ✅ Ise badalkar upar line 26 ke paas ye likh dijiye:
 app.use(cors({
     origin: ["https://school-s6ur.vercel.app", "http://127.0.0.1:5173", "http://localhost:5173"],
     credentials: true
@@ -59,23 +56,34 @@ const Visitor = mongoose.models.Visitor || mongoose.model(
     visitorSchema
 );
 
-
-
 // VISITOR FORM
 app.post("/api/visitor", async(req, res) => {
 
-    const newVisitor = new Visitor({
-        name: req.body.name,
-        mobile: req.body.mobile,
-        message: req.body.message,
-        type: "visitor"
-    });
+    try {
 
-    await newVisitor.save();
+        const newVisitor = new Visitor({
+            name: req.body.name,
+            mobile: req.body.mobile,
+            message: req.body.message,
+            interest: req.body.interest,
+            type: "visitor"
+        });
 
-    res.json({
-        message: "Visitor Saved"
-    });
+        await newVisitor.save();
+
+        res.json({
+            message: "Visitor Saved"
+        });
+
+    } catch (error) {
+
+        console.log("Visitor save error:", error);
+
+        res.status(500).json({
+            message: "Something went wrong while saving visitor"
+        });
+
+    }
 });
 
 app.delete("/api/visitor/:id", async(req, res) => {
@@ -595,6 +603,19 @@ app.delete("/api/admin/notices/:id", async(req, res) => {
 });
 
 
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).json({ message: `Route ${req.method} ${req.url} not found` });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error("Server Error:", err);
+    res.status(err.status || 500).json({
+        message: err.message || "Internal Server Error"
+    });
+});
+
 mongoose.connect(process.env.DB_CONNECT_STRING)
     .then(() => console.log("DB connected"));
 
@@ -602,9 +623,10 @@ mongoose.connect(process.env.DB_CONNECT_STRING)
 //     console.log("Server running 3000");
 // });
 // ✅ Ise replace karein code ke bilkul niche:
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.BACKEND_PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
+// ✅ Vercel serverless ke liye export
 module.exports = app;
