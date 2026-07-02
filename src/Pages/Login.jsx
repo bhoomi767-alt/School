@@ -11,16 +11,16 @@ export default function Login() {
 
 
 const handleLogin = async () => {
-    // 1. Frontend se sirf data bhejna hai
-    const res = await fetch(`${API_BASE_URL}/api/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ number, password })
-    });
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ number, password })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.status === 200) {
+      if (res.status === 200) {
       alert("Login successful");
       console.log("Backend Data:", data.user);
 
@@ -43,9 +43,12 @@ const handleLogin = async () => {
       } else {
         navigate("/profile");
       }
-    } else {
-      // Agar backend ne 400 ya 404 bheja (Invalid password etc.)
-      alert(data.message);
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Unable to reach the server. Please make sure the backend is running on port 3000.");
     }
   };
 
@@ -57,17 +60,17 @@ const handleLogin = async () => {
         </h1>
 
         <input
-  type="number"
-  placeholder="Enter Number"
-  className="w-full border p-3 rounded-lg mb-4"
-  value={number}
-  // Change yahan karein: 10 digit se zyada type na ho sake
-  onChange={(e) => {
-    if (e.target.value.length <= 10) {
-      setNumber(e.target.value);
-    }
-  }}
-/>
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          placeholder="Enter Number"
+          className="w-full border p-3 rounded-lg mb-4"
+          value={number}
+          onChange={(e) => {
+            const sanitized = e.target.value.replace(/\D/g, "").slice(0, 10);
+            setNumber(sanitized);
+          }}
+        />
 
         <input
           type="password"

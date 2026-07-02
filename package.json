@@ -5,6 +5,7 @@
     "dependencies": {
         "@tailwindcss/vite": "^4.3.0",
         "aos": "^2.3.4",
+        "axios": "^1.18.1",
         "base-x": "^3.0.11",
         "bcrypt": "^6.0.0",
         "browserslist": "^4.25.0",
@@ -26,8 +27,6 @@
         "express": "^5.2.1",
         "firebase": "^12.12.1",
         "framer-motion": "^12.38.0",
-        "lucide-react": "^1.14.0",
-        "parcel": "^2.16.4",
         "get-port": "^4.2.0",
         "globals": "^13.24.0",
         "google-auth-library": "^10.7.0",
@@ -39,6 +38,7 @@
         "jsonwebtoken": "^9.0.3",
         "lightningcss-win32-x64-msvc": "^1.32.0",
         "lmdb": "^2.8.5",
+        "lucide-react": "^1.22.0",
         "mongodb": "^7.2.0",
         "mongoose": "^9.7.2",
         "msgpackr": "^1.11.9",
@@ -53,6 +53,7 @@
         "normalize-range": "^0.1.2",
         "nullthrows": "^1.1.1",
         "ordered-binary": "^1.6.1",
+        "parcel": "^2.16.4",
         "picocolors": "^1.1.1",
         "picomatch": "^4.0.3",
         "postcss-value-parser": "^4.2.0",
@@ -71,7 +72,6 @@
         "build": "parcel build src/index.html",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-
     "keywords": [],
     "author": "",
     "license": "ISC",
@@ -93,11 +93,9 @@
         "vite": "^8.0.14"
     },
     "packageManager": "npm@10.8.1",
-
     "engines": {
         "node": "24.x"
     },
-
     "vercel": {
         "config": {
             "installCommand": "npm install --legacy-peer-deps"

@@ -143,7 +143,7 @@ export default function Front({ open, setOpen }) {
                         Icon={Users}
                         options={[
                             { label: "Login", path: "/login", icon: LogIn },
-                            { label: "Register", path: "/register", icon: UserPlus },
+                            { label: "Admin Login", path: "/adminlog", icon: UserPlus },
                             { label: "Admission", path: "/admission", icon: GraduationCap }
                         ]} 
                     />

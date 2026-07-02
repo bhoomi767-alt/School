@@ -86,7 +86,7 @@ export default function AboutSection() {
 
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-4xl md:text-5xl font-semibold text-[#4b5563]">10+</h1>
+              <h1 className="text-4xl md:text-5xl font-semibold text-[#4b5563]">15+</h1>
               <p className="text-[#4b5563] mt-1">Qualified Teachers</p>
             </div>
             <span className="hidden md:block text-2xl bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-transparent bg-clip-text">✦</span>
@@ -103,7 +103,7 @@ export default function AboutSection() {
             <div>
               {/* <h1 className="text-4xl md:text-5xl font-semibold text-[#4b5563]">150+</h1> */}
               <h1 className="text-4xl md:text-5xl font-semibold text-[#4b5563]">
-              <Counter target={150} />+
+              <Counter target={300} />+
               </h1>
               <p className="text-[#4b5563] mt-1">Students</p>
             </div>

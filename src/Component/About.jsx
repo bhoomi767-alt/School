@@ -1,8 +1,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function About() {
+   const navigate = useNavigate();
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-sky-100 to-cyan-50 py-20 px-6">
       
@@ -34,7 +36,7 @@ export default function About() {
             achieve success.
           </p>
 
-          <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer">
+          <button onClick={() => navigate("/about")} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer">
             Learn More
           </button>
         </motion.div>

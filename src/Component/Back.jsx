@@ -89,7 +89,7 @@ export default function Back({ open, setOpen }) {
 
           <MenuSection title="Students" icon={Users} items={[
             { icon: LogIn, label: "Login", action: () => handleNavigation("/login") },
-            { icon: UserPlus, label: "Register", action: () => handleNavigation("/register") },
+            { icon: UserPlus, label: "Admin Login", action: () => handleNavigation("/adminlog") },
             { icon: Activity, label: "Admission", action: () => handleNavigation("/admission") },
           ]} />
 

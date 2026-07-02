@@ -141,7 +141,7 @@ export default function Contact() {
 
                 <div>
                   <p className="font-semibold text-slate-800">Address</p>
-                  <p className="text-slate-500">Rewa, MP</p>
+                  <p className="text-slate-500">Gram, Post garh District Rewa M.P.</p>
                 </div>
               </div>
 
@@ -152,7 +152,7 @@ export default function Contact() {
 
                 <div>
                   <p className="font-semibold text-slate-800">Phone</p>
-                  <p className="text-slate-500">+91 9876543210</p>
+                  <p className="text-slate-500">+91 9424862739</p>
                 </div>
               </div>
 

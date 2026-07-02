@@ -57,17 +57,17 @@ export default function Hero() {
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-5">
 
           <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 hover:scale-105 transition duration-300">
-            <h3 className="text-2xl font-bold text-white">500+</h3>
+            <h3 className="text-2xl font-bold text-white">300+</h3>
             <p className="text-sm text-slate-200 mt-1">Students</p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 hover:scale-105 transition duration-300">
-            <h3 className="text-2xl font-bold text-white">40+</h3>
+            <h3 className="text-2xl font-bold text-white">15+</h3>
             <p className="text-sm text-slate-200 mt-1">Teachers</p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 hover:scale-105 transition duration-300">
-            <h3 className="text-2xl font-bold text-white">25+</h3>
+            <h3 className="text-2xl font-bold text-white">10+</h3>
             <p className="text-sm text-slate-200 mt-1">Awards</p>
           </div>
 

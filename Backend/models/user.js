@@ -17,18 +17,30 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     rollNo: {
-        type: String
+        type: String,
+        required: true,
+    },
+    fatherName: {
+        type: String,
+        default: ""
+    },
+
+    dob: {
+        type: String,
+        default: ""
+    },
+
+    aadharPhoto: {
+        type: String,
+        default: ""
     },
     photo: {
         type: String,
         default: ""
     },
-    feeStatus: {
-        type: String,
-        default: "pending"
-    },
     studentClass: {
         type: String,
+
         default: ""
     },
     percentage: {
@@ -43,7 +55,26 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "student"],
         default: "student"
-    }
+    },
+    // Fees
+    totalFees: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+
+    paidFees: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+
+    feeStatus: {
+        type: String,
+        enum: ["Paid", "Pending"],
+        required: true,
+        default: "Pending",
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

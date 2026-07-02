@@ -6,34 +6,57 @@ const path = require("path")
 const bcrypt = require('bcrypt');
 const Student = require("./models/user.js");
 const nodemailer = require("nodemailer");
-let tempOTP = ""; // Temporary storage for OTP
+const otpStore = {}; // Temporary storage for OTP
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 const feedbackRoutes = require("./routes/feedback");
 const Admission = require("./models/Admission");
+const adminRoutes = require("./routes/admin");
 // const Enquiry = require("./models/Enquiry");
 
 
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const authRoutes = require("./routes/auth");
 
+const phoneOTP = {};
 const app = express();
 
 app.get("/", (req, res) => {
     res.send("<h1>School Backend Server is Running Successfully! ✅</h1>");
 });
 
-app.use(cors({
-    origin: ["https://school-s6ur.vercel.app", "http://127.0.0.1:5173", "http://localhost:5173"],
-    credentials: true
-}));
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    const allowedOrigins = [
+        "http://localhost:1234",
+        "http://localhost:5173",
+        "http://127.0.0.1:1234",
+        "http://127.0.0.1:5173",
+        "https://school-s6ur.vercel.app"
+    ];
+
+    if (origin && allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+    }
+
+    if (req.method === "OPTIONS") {
+        res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+        return res.sendStatus(204);
+    }
+
+    next();
+});
 
 app.use(express.json());
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api", authRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/upload", express.static(path.join(__dirname, "uploads")));
+app.use("/api/admin", adminRoutes);
 
 const visitorSchema = new mongoose.Schema({
 
@@ -294,19 +317,8 @@ const paymentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// DELETE PROTECTION
-paymentSchema.pre("findOneAndDelete", function(next) {
-    next(new Error("Payment history cannot be deleted"));
-});
 
-paymentSchema.pre("deleteOne", function(next) {
-    next(new Error("Payment history cannot be deleted"));
-});
-
-paymentSchema.pre("deleteMany", function(next) {
-    next(new Error("Payment history cannot be deleted"));
-});
-const Payment = mongoose.model("Payment", paymentSchema);
+const Payment = mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
 
 // --- 2. PAYMENT ROUTES ---
 
@@ -388,47 +400,135 @@ app.post("/api/admin/change-password", async(req, res) => {
 
 // 1. Send OTP Route
 app.post("/api/admin/send-otp", async(req, res) => {
-    const { email } = req.body;
-
-    // 6-digit random OTP generate karein
-    tempOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Email configuration (Yahan apna email aur password dalein)
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: "Admin Password Reset OTP",
-        text: `Aapka OTP hai: ${tempOTP}. Ye 5 minute ke liye valid hai.`
-    };
-
     try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "OTP sent to your email!" });
-    } catch (error) {
-        res.status(500).json({ message: "Email bhejte waqt error aaya" });
+
+        const { email } = req.body;
+
+        const admin = await Student.findOne({
+            role: "admin",
+            email
+        });
+
+        if (!admin) {
+            return res.status(404).json({
+                message: "Admin email not found"
+            });
+        }
+
+        const otp = Math.floor(
+            100000 + Math.random() * 900000
+        ).toString();
+
+        otpStore[email] = {
+            otp,
+            expires: Date.now() + 5 * 60 * 1000
+        };
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Admin Password Reset OTP",
+            html: `
+        <h2>School Management System</h2>
+
+        <p>Your OTP is</p>
+
+        <h1>${otp}</h1>
+
+        <p>Valid for 5 minutes.</p>
+      `
+        });
+
+        res.json({
+            message: "OTP sent successfully"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: "Failed to send OTP"
+        });
+
     }
 });
 
 // 2. Verify OTP and Change Password
 app.post("/api/admin/verify-otp-reset", async(req, res) => {
-    const { otp, newPassword } = req.body;
 
-    if (otp === tempOTP) {
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await Student.findOneAndUpdate({ role: "admin" }, { password: hashedPassword });
-        tempOTP = ""; // Reset OTP after use
-        res.status(200).json({ message: "Password updated successfully!" });
-    } else {
-        res.status(400).json({ message: "Invalid OTP! Dubara koshish karein." });
+    try {
+
+        const {
+            email,
+            otp,
+            newPassword
+        } = req.body;
+
+        const data = otpStore[email];
+
+        if (!data) {
+
+            return res.status(400).json({
+                message: "OTP not found"
+            });
+
+        }
+
+        if (Date.now() > data.expires) {
+
+            delete otpStore[email];
+
+            return res.status(400).json({
+                message: "OTP Expired"
+            });
+
+        }
+
+        if (otp !== data.otp) {
+
+            return res.status(400).json({
+                message: "Invalid OTP"
+            });
+
+        }
+
+        const hash = await bcrypt.hash(
+            newPassword,
+            10
+        );
+
+        await Student.findOneAndUpdate({
+            role: "admin",
+            email
+        }, {
+            password: hash
+        });
+
+        delete otpStore[email];
+
+        res.json({
+            message: "Password updated successfully"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server Error"
+        });
+
     }
+
 });
 
 // --- ADMIN SIDE: Fetch All Pending Payments ---
@@ -448,7 +548,7 @@ app.post("/api/admin/approve-payment", async(req, res) => {
     try {
         const { paymentId } = req.body;
 
-        // Payment find karo
+        // 1. Payment find karo
         const payment = await Payment.findById(paymentId);
 
         if (!payment) {
@@ -457,20 +557,42 @@ app.post("/api/admin/approve-payment", async(req, res) => {
             });
         }
 
-        // Payment approved
+        // Agar payment pehle se approved hai toh dobara calculation na ho
+        if (payment.status === "Approved") {
+            return res.status(400).json({ message: "Payment is already approved!" });
+        }
+
+        // 2. Payment status ko approved mark karein
         payment.status = "Approved";
         await payment.save();
 
-        // Student fee update
-        await Student.findOneAndUpdate({ rollNo: payment.studentRoll }, { feeStatus: "Paid" });
+        // 3. Student ko dhoondhein uske Roll Number se
+        const student = await Student.findOne({ rollNo: payment.studentRoll });
+
+        if (student) {
+            // Nayi paid fees calculate karein (Purani paid fees + Naya payment amount)
+            const updatedPaidFees = (student.paidFees || 0) + payment.amount;
+            student.paidFees = updatedPaidFees;
+
+            // Agar paidFees totalFees ke barabar ya usse zyada ho jaye, toh status "Paid" karein
+            if (updatedPaidFees >= (student.totalFees || 0) && student.totalFees > 0) {
+                student.feeStatus = "Paid";
+            } else {
+                student.feeStatus = "Pending";
+            }
+
+            // Student document ko save karein
+            await student.save();
+        } else {
+            return res.status(404).json({ message: "Payment approved, but student not found to update fees!" });
+        }
 
         res.json({
-            message: "Payment approved successfully!"
+            message: "Payment approved and student fee records updated successfully!"
         });
 
     } catch (error) {
         console.error(error);
-
         res.status(500).json({
             message: "Approval failed"
         });
@@ -602,6 +724,140 @@ app.delete("/api/admin/notices/:id", async(req, res) => {
     }
 });
 
+// Fee history admin
+app.get("/api/admin/payment-history", async(req, res) => {
+
+    try {
+
+        const payments = await Payment.find()
+            .sort({ createdAt: -1 });
+
+        res.json(payments);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Server Error"
+        });
+
+    }
+
+});
+app.delete("/api/admin/payment-history/:id", async(req, res) => {
+    try {
+
+        const payment = await Payment.findByIdAndDelete(req.params.id);
+
+        if (!payment) {
+            return res.status(404).json({
+                message: "Payment not found"
+            });
+        }
+
+        res.json({
+            message: "Payment deleted successfully"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Delete failed"
+        });
+    }
+});
+
+// otp for student password change
+const sendPhoneOtp = async(phone, otp) => {
+    const apiKey = process.env.FAST2SMS_API_KEY;
+
+    if (!apiKey) {
+        console.warn(`[OTP] FAST2SMS_API_KEY not set. Generated OTP for ${phone}: ${otp}`);
+        return;
+    }
+
+    const params = new URLSearchParams({
+        authorization: apiKey,
+        route: "otp",
+        variables_values: otp,
+        numbers: phone
+    });
+
+    const response = await fetch(`https://www.fast2sms.com/dev/bulkV2?${params.toString()}`);
+
+    if (!response.ok) {
+        throw new Error(`SMS provider failed with status ${response.status}`);
+    }
+};
+
+app.post("/api/send-phone-otp", async(req, res) => {
+    try {
+        const phone = String(req.body.phone || "").replace(/\D/g, "");
+
+        if (!phone) {
+            return res.status(400).json({ message: "Phone number is required" });
+        }
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        phoneOTP[phone] = otp;
+
+        await sendPhoneOtp(phone, otp);
+
+        res.json({ message: "OTP sent to phone" });
+    } catch (err) {
+        console.error("OTP send failed:", err);
+        res.status(500).json({ message: "SMS failed" });
+    }
+});
+
+app.post("/api/verify-phone-otp-change-password", async(req, res) => {
+    try {
+        const phone = String(req.body.phone || "").replace(/\D/g, "");
+        const { otp, newPassword } = req.body;
+
+        if (!phone || !otp || !newPassword) {
+            return res.status(400).json({ message: "Phone, OTP and new password are required" });
+        }
+
+        if (phoneOTP[phone] !== String(otp)) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updatedStudent = await Student.findOneAndUpdate({ number: Number(phone) }, { password: hashedPassword }, { new: true });
+
+        delete phoneOTP[phone];
+
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.json({ message: "Password changed successfully" });
+    } catch (err) {
+        console.error("Password change failed:", err);
+        res.status(500).json({ message: "Password change failed" });
+    }
+});
+
+app.get("/api/student/:id", async(req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+
+        if (!student) {
+            return res.status(404).json({
+                message: "Student not found"
+            });
+        }
+
+        res.json(student);
+    } catch (err) {
+        res.status(500).json({
+            message: "Server Error"
+        });
+    }
+});
+
 
 // 404 handler
 app.use((req, res, next) => {
@@ -616,8 +872,19 @@ app.use((err, req, res, next) => {
     });
 });
 
-mongoose.connect(process.env.DB_CONNECT_STRING)
-    .then(() => console.log("DB connected"));
+const mongoUri = process.env.DB_CONNECT_STRING || process.env.MONGO_URI;
+
+if (!mongoUri) {
+    console.error("Missing MongoDB connection string. Set DB_CONNECT_STRING in Backend/.env");
+    process.exit(1);
+}
+
+mongoose.connect(mongoUri)
+    .then(() => console.log("DB connected"))
+    .catch((err) => {
+        console.error("MongoDB connection failed:", err.message);
+        process.exit(1);
+    });
 
 // app.listen(3000, () => {
 //     console.log("Server running 3000");

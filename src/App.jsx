@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { useState } from "react";
-import './myproject/src/index.css'
+import "./myproject/src/index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./Component/ScrollToTop";
 import Homy from "./Component/Homy";
 import About2 from "./Component/About2"
 import Front from "./Component/Front";
@@ -22,42 +23,53 @@ import Achievements from "./Pages/Achievements";
 import Certificates from "./Pages/Certificates";
 import Gallery from "./Pages/Gallery2";
 import Admission from "./Pages/Admission";
+import AdminLogin from "./Pages/adminlog";
 
 
 
 function App() {
-     const [open, setOpen] = useState(false);
-    return (
-        <BrowserRouter future={{ 
-                v7_startTransition: true, 
-                v7_relativeSplatPath: true 
-            }}>
-        <VisitorGate />
-            <Front setOpen={setOpen}/>
-            
-            <Back open={open} setOpen={setOpen}/>
-           <main className="min-h-screen max-w-full w-full overflow-x-hidden">
-                <Routes>
-                    <Route path="/" element={<Homy />} />
-                    <Route path="/about" element={<About2 />} />
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/Dashboard" element={<Dashboard/>} />
-                    <Route path="/profile" element={<Profile/>}/>
-                    <Route path="/school" element={<SearchResults/>}/>
-                    <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard/></ProtectedAdminRoute>}/>
-                    <Route path="/principal" element={<PrincipalTeachers />} />
-                    <Route path="/feedback" element={<Feedback />} />
-                    <Route path="/feedback" element={<Feedback />} />
-                    <Route path="/achievements" element={<Achievements />} />
-                    <Route path="/certificates" element={<Certificates />} />
-                    <Route path="/gallery" element={<Gallery />} />
-                    <Route path="/admission" element={<Admission />} />
-                </Routes>
-            </main>
-            <Contact/>
-            <Footer/>
-        </BrowserRouter>
-    );
+  const [open, setOpen] = useState(false);
+
+  return (
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <ScrollToTop />
+      <VisitorGate />
+      <Front setOpen={setOpen} />
+      <Back open={open} setOpen={setOpen} />
+      <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-slate-50 text-slate-800">
+        <Routes>
+          <Route path="/" element={<Homy />} />
+          <Route path="/about" element={<About2 />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/school" element={<SearchResults />} />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <AdminDashboard />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route path="/principal" element={<PrincipalTeachers />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/achievements" element={<Achievements />} />
+          <Route path="/certificates" element={<Certificates />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/admission" element={<Admission />} />
+          <Route path="/adminlog" element={<AdminLogin />} />
+        </Routes>
+      </main>
+      <Contact />
+      <Footer />
+    </BrowserRouter>
+  );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render( <App> </App>)
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);

@@ -10,9 +10,11 @@ import {
 export default function PrincipalTeachers() {
 
   const galleryImages = [
+      // new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1783010084/yashp_kwhqmz.jpg", import.meta.url).href,
     new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963118/duo_ixuhsz.jpg").href,
-    new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963125/science_wu8ha3.png", import.meta.url).href,
     new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963122/mam_rahkgc.png", import.meta.url).href,
+    new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963125/science_wu8ha3.png", import.meta.url).href,
+
   ];
   const newGalleryImages = [
   new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963123/papa_pibujp.jpg", import.meta.url).href,
@@ -21,6 +23,12 @@ export default function PrincipalTeachers() {
   new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963120/img5_cknrrs.jpg", import.meta.url).href,
    new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963121/img7_rbsnuy.jpg", import.meta.url).href,
     new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1779963118/img12_tsxhte.jpg", import.meta.url).href,
+];
+const teacherPosters = [
+  new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1783010084/yashp_kwhqmz.jpg", import.meta.url).href,
+  new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1783010072/prem_r25stx.jpg", import.meta.url).href,
+  new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1783010078/sury_b4qyb6.jpg", import.meta.url).href,
+  new URL("https://res.cloudinary.com/dypimplt2/image/upload/v1783010082/tanuja_hmxflp.jpg", import.meta.url).href,
 ];
 
   const principal = {
@@ -50,7 +58,7 @@ export default function PrincipalTeachers() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-[#eef6ff] via-[#dbeafe] to-[#f8fbff] py-16 px-5 overflow-hidden relative">
+    <div className="w-full min-h-screen bg-gradient-to-b from-[#eef6ff] via-[#dbeafe] to-[#f8fbff] py-16 px-5 overflow-hidden relative animate-fadeIn">
 
       {/* Blur Background */}
       <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl"></div>
@@ -181,6 +189,45 @@ export default function PrincipalTeachers() {
           ))}
         </div>
       </div>
+
+      {/* Teacher Posters */}
+
+<div className="relative z-10 max-w-7xl mx-auto mb-24">
+
+  <div className="text-center mb-12">
+
+    <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-700 bg-clip-text text-transparent">
+      हमारे प्रेरणास्रोत
+    </h2>
+
+    <p className="text-gray-600 mt-3 text-lg">
+      हमारे विद्यालय के समर्पित शिक्षकों को समर्पित
+    </p>
+
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-10">
+
+    {teacherPosters.map((image, index) => (
+
+      <div
+  key={index}
+  className="bg-white rounded-[35px] shadow-2xl overflow-hidden border border-gray-100 flex justify-center items-center p-2"
+>
+
+        <img
+          src={image}
+          alt={`Teacher Poster ${index + 1}`}
+          className="block w-full object-contain hover:scale-105 transition duration-700"
+        />
+
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
 
       {/* Gallery */}
       <div className="relative z-10 max-w-6xl mx-auto">

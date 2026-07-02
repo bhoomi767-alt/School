@@ -1,7 +1,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GallerySection() {
+   const navigate = useNavigate();
   const schoolVideo = new URL("https://res.cloudinary.com/dypimplt2/video/upload/v1779963137/v1_k40nhd.mp4", import.meta.url).href;
 
   const galleryImages = [
@@ -67,7 +69,7 @@ export default function GallerySection() {
               activities, sports competitions, and classroom experiences.
             </p>
 
-            <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3 rounded-2xl shadow-lg hover:shadow-blue-300/50 transition-all duration-300 cursor-pointer">
+            <button onClick={() => navigate("/gallery")} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3 rounded-2xl shadow-lg hover:shadow-blue-300/50 transition-all duration-300 cursor-pointer">
               View All Photos
             </button>
           </div>
